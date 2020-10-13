@@ -15,12 +15,15 @@ for await (const req of server) {
   }
 
   try {
+    console.log('request: public' + path);
     req.respond(await serveFile(req, 'public' + path));
   } catch (e) {
     if (e && e instanceof Deno.errors.NotFound) {
       req.respond({ status: 404 });
+      console.log('-- file not found');
     } else {
       req.respond({ status: 500 });
+      console.log('-- internal server error');
     }
   }
 }
